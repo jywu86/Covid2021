@@ -8,7 +8,7 @@ from scipy.stats import ttest_rel
 df = pd.read_csv('nationalonly.csv', encoding='utf-8')
 
 # filtering and removing unnecessary columns and creating new columns for use
-df = df[df['Level']=='National']
+# df = df[df['Level']=='National']
 # df.dropna(axis=1, how='any',inplace=True)
 date_format = '%Y/%m/%d'
 df['Date'] = [datetime.strptime(date, date_format) for date in df['Date']]
@@ -45,9 +45,9 @@ population in 2019 was 331,028,075 (U.S. Census Bureau)
 population in 2020 was 332,013,802 (U.S. Census Bureau)
 population in 2021 is 332,952,379 (U.S. Census Bureau)
 """
-weight_2019 = 1.0
-weight_2020 = round(332013802/331028075, 3)
-weight_2021 = round(332952379/331028075, 3)
+weight_2019 = round(331028075/332952379, 3)
+weight_2020 = round(332013802/332952379, 3)
+weight_2021 = round(332952379/332952379, 3)
 
 
 
@@ -69,7 +69,7 @@ appendto = [Med_trips_2019,Med_trips_2020,Med_trips_2021]
 weight = [weight_2019,weight_2020,weight_2021]
 for d,a,w in zip(dframe,appendto,weight):
     for i,j,k,l in zip(d['Number of Trips 5-10'],d['Number of Trips 10-25'],d['Number of Trips 25-50'],d['Number of Trips 50-100']):
-        sum_of_Med = (i + j + k + l) / w
+        sum_of_Med = (i + j + k + l) * w
         a.append(sum_of_Med)
 
 #Creating Arrays for total trips each year group >= 100
@@ -82,7 +82,7 @@ Long_trips_2021 = []
 appendto = [Long_trips_2019,Long_trips_2020,Long_trips_2021]
 for d,a,w in zip(dframe,appendto,weight):
     for i,j,k in zip(d['Number of Trips 100-250'],d['Number of Trips 250-500'],d['Number of Trips >=500']):
-        sum_of_Long = (i + j + k) / w
+        sum_of_Long = (i + j + k) * w
         a.append(sum_of_Long)
     
 
